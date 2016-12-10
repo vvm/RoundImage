@@ -42,6 +42,7 @@
 
 - (void)addRoundImageURL:(NSURL *)url
 {
+    // remember the url point to the image should circle
     [_roundImageURLList addObject:url];
 }
 
@@ -63,12 +64,14 @@
     return [RoundManager roundImage:image];
 }
 
+// circle image in AspectFit mode
 + (UIImage*)roundImage:(UIImage*)image
 {
     CGSize originSize = image.size;
     CGFloat length = MIN(originSize.width, originSize.height);
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(length, length), NO, image.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
+    // clip a circle
     CGContextSaveGState(context);
     CGContextAddPath(context, [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, length, length) cornerRadius:length / 2.0].CGPath);
     CGContextClip(context);
